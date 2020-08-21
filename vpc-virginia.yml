@@ -1,11 +1,28 @@
- 
 ---
     AWSTemplateFormatVersion: 2010-09-09
+    Parameters:
+        Cidr:
+            Type: String
+            Description: Cidr for vpc
+        
+        Publicsubnet1:
+            Type: String
+            Description: public subnet 1
+      
+        Publicsubnet2:
+            Type: String
+            Description: public subnet 2
+        AvailabilityZone1: 
+            Type: String
+            Description: public subnet 2
+        AvailabilityZone2: 
+            Type: String
+            Description: public subnet 2 
     Resources:
       VPC:
         Type: AWS::EC2::VPC
         Properties:
-          CidrBlock: 13.0.0.0/16
+          CidrBlock: !Ref Cidr
           EnableDnsSupport: true
           EnableDnsHostnames: true
           InstanceTenancy: default
@@ -19,16 +36,16 @@
       SubnetA:
         Type: AWS::EC2::Subnet
         Properties:
-          AvailabilityZone: us-east-1a
+          AvailabilityZone: !Ref AvailabilityZone1
           VpcId: !Ref VPC
-          CidrBlock: 13.0.1.0/24
+          CidrBlock: !Ref Publicsubnet1
           MapPublicIpOnLaunch: true
       SubnetB:
         Type: AWS::EC2::Subnet
         Properties:
-          AvailabilityZone: us-east-1b
+          AvailabilityZone: !Ref AvailabilityZone2
           VpcId: !Ref VPC
-          CidrBlock: 13.0.0.0/24
+          CidrBlock: !Ref Publicsubnet2
           MapPublicIpOnLaunch: false
       RouteTable:
         Type: AWS::EC2::RouteTable
